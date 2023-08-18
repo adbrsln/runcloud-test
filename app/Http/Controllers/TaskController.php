@@ -14,7 +14,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view(self::VIEW.'.index');
+        $tasks = Task::orderBy('status')->paginate(10);
+        return view(self::VIEW.'.index',compact('tasks'));
     }
 
     /**

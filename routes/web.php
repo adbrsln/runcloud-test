@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,6 @@ Route::middleware([
 
 
     Route::resource('workspace', WorkspaceController::class);
+
+    Route::resource('task', TaskController::class);
 });

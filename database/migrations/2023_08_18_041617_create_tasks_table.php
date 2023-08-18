@@ -18,9 +18,8 @@ return new class extends Migration
             $table->text('description');
             $table->enum('status',[
                 'completed',
-                'pending',
-                'in progress'
-            ])->default('pending');
+                'incomplete'
+            ])->default('incomplete');
             $table->timestamp('start');
             $table->timestamp('end');
             $table->timestamp('completed_at')->nullable();

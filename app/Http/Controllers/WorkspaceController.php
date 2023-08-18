@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWorkspaceRequest;
 use App\Http\Requests\UpdateWorkspaceRequest;
 use App\Models\Workspace;
+use Carbon\Carbon;
 
 class WorkspaceController extends Controller
 {
@@ -15,7 +16,9 @@ class WorkspaceController extends Controller
      */
     public function index()
     {
-        return view(self::VIEW.'.index');
+        $workspaces = Workspace::where('user_id',Auth()->id())->paginate(5);
+        $view = 'index';
+        return view(self::VIEW.'.index', compact('workspaces','view'));
     }
 
     /**
@@ -37,9 +40,18 @@ class WorkspaceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Workspace $workspace)
+    public function show($uuid)
     {
-        //
+        $workspace = Workspace::where('user_id',Auth()->id())->whereUuid($uuid)->first();
+        if(!$workspace){
+            return redirect(route('workspace.index'))->withErrors('Resources Not Found');
+        }
+        $tasks = $workspace->tasks()->paginate();
+
+
+        $view = 'show';
+        return view('module.workspace.index',compact('workspace','view','tasks'));
+
     }
 
     /**

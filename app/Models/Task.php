@@ -38,4 +38,10 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    protected $casts = [
+        'completed_at' => 'datetime',
+        'start' => 'datetime',
+        'end' => 'datetime'
+    ];
 }

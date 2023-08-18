@@ -19,7 +19,7 @@ class WorkspaceFactory extends Factory
     {
 
         return [
-            'name' => $this->faker->name(),
+            'name' => 'Workspace '.$this->faker->text('10'),
             'description' => $this->faker->text(200),
             'user_id' => rand(1,User::count())
         ];
