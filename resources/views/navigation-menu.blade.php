@@ -18,6 +18,7 @@
                     <x-nav-link href="{{ route('workspace.index') }}" :active="request()->routeIs('workspace.index')">
                         {{ __('Workspace') }}
                     </x-nav-link>
+
                 </div>
             </div>
 

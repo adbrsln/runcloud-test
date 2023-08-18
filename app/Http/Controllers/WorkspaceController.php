@@ -6,11 +6,12 @@ use App\Http\Requests\StoreWorkspaceRequest;
 use App\Http\Requests\UpdateWorkspaceRequest;
 use App\Models\Workspace;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class WorkspaceController extends Controller
 {
 
-    private const VIEW = 'module.workspace';
+    private const VIEW = 'module.workspace.index';
     /**
      * Display a listing of the resource.
      */
@@ -18,7 +19,7 @@ class WorkspaceController extends Controller
     {
         $workspaces = Workspace::where('user_id',Auth()->id())->paginate(5);
         $view = 'index';
-        return view(self::VIEW.'.index', compact('workspaces','view'));
+        return view(self::VIEW, compact('workspaces','view'));
     }
 
     /**
@@ -26,7 +27,8 @@ class WorkspaceController extends Controller
      */
     public function create()
     {
-        //
+        $view = 'create';
+        return view(self::VIEW, compact('view'));
     }
 
     /**
@@ -34,23 +36,26 @@ class WorkspaceController extends Controller
      */
     public function store(StoreWorkspaceRequest $request)
     {
-        //
+        $workspace = new Workspace();
+        $workspace->name = $request->name;
+        $workspace->description = $request->description;
+        $workspace->user_id = auth()->id();
+        $workspace->save();
+        return redirect()->route('workspace.show',['workspace' => $workspace]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($uuid)
+    public function show(Workspace $workspace)
     {
-        $workspace = Workspace::where('user_id',Auth()->id())->whereUuid($uuid)->first();
-        if(!$workspace){
+        if (!Gate::allows('view', $workspace)) {
             return redirect(route('workspace.index'))->withErrors('Resources Not Found');
         }
-        $tasks = $workspace->tasks()->paginate();
-
+        $tasks = $workspace->tasks()->where('user_id',Auth()->id())->paginate();
 
         $view = 'show';
-        return view('module.workspace.index',compact('workspace','view','tasks'));
+        return view(self::VIEW,compact('workspace','view','tasks'));
 
     }
 

@@ -5,7 +5,7 @@
         <p class="mt-2 text-sm text-gray-700">List of Workspace that you can view</p>
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        <button type="button" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Workspace</button>
+        <a href="{{route('workspace.create')}}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Workspace</a>
       </div>
     </div>
     <div class="mt-5 flow-root">
@@ -28,10 +28,10 @@
                     <tr>
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{$workspace->name}}</td>
                         <td class=" px-3 py-4 text-sm text-gray-500 ">{{$workspace->description}}</td>
-                        <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$workspace->tasks()->count()}}</td>
-                        <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$workspace->tasks()->where('status','completed')->count()}}</td>
+                        <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$workspace->tasks()->where('user_id',Auth()->id())->count()}}</td>
+                        <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$workspace->tasks()->where('user_id',Auth()->id())->where('status','completed')->count()}}</td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-0">
-                            <a href="{{route('workspace.show',['workspace'=> $workspace->uuid])}}" class="text-indigo-600 hover:text-indigo-900">View</a>
+                            <a href="{{route('workspace.show',['workspace'=> $workspace])}}" class="text-indigo-600 hover:text-indigo-900">View</a>
                         </td>
                     </tr>
                 @empty

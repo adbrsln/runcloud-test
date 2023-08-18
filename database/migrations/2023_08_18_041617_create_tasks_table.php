@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->uuid();
             $table->string('name');
             $table->text('description');
             $table->enum('status',[

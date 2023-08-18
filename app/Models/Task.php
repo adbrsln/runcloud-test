@@ -9,16 +9,6 @@ use Illuminate\Support\Str;
 class Task extends Model
 {
     use HasFactory;
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (!$model->uuid) {
-                $model->uuid = Str::uuid();
-            }
-        });
-    }
     /**
      * Get the workspace that owns the task
      *
@@ -44,4 +34,13 @@ class Task extends Model
         'start' => 'datetime',
         'end' => 'datetime'
     ];
+
+    public function scopeCompleteTask($query){
+        return $query->where('status','completed');
+    }
+
+
+    public function scopeIncompleteTask($query){
+        return $query->where('status','incomplete');
+    }
 }

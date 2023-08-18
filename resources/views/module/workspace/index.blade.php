@@ -17,6 +17,9 @@
         </div>
     @elseif($view === 'show')
         @include('module.workspace.components.info')
+
+    @elseif($view === 'create')
+        @include('module.workspace.components.form')
     @endif
 
 

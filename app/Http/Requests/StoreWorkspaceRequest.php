@@ -11,7 +11,7 @@ class StoreWorkspaceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreWorkspaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|min:4',
+            'description' => 'required|string|max:250'
         ];
     }
 }

@@ -39,7 +39,7 @@
         </div>
 
         @stack('modals')
-
+        @stack('custom-js')
         @livewireScripts
     </body>
 </html>

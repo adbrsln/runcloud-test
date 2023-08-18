@@ -11,17 +11,6 @@ use Illuminate\Support\Str;
 class Workspace extends Model
 {
     use HasFactory;
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (!$model->uuid) {
-                $model->uuid = Str::uuid();
-            }
-        });
-    }
     /**
      * Get all of the tasks for the Workspace
      *

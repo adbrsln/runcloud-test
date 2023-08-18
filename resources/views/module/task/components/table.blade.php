@@ -5,7 +5,7 @@
         <p class="mt-2 text-sm text-gray-700">List of Tasks that you can view</p>
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        <button type="button" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Tasks</button>
+        <a href="{{route('create-task',['workspace'=>$workspace])}}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Tasks</a>
       </div>
     </div>
     <div class="mt-5 flow-root">
@@ -31,23 +31,23 @@
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{$task->name}}</td>
                         <td class=" px-3 py-4 text-sm text-gray-500 ">{{$task->description}}</td>
 
-                        <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$task->start}}</td>
-                        <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$task->end}}</td>
+                        <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$task->start->format('d/m/y')}}</td>
+                        <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$task->end->format('d/m/y')}}</td>
                         @if ($task->status == 'completed')
                             <td class=" px-3 py-4 text-sm text-gray-500 text-center">
                                 <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Complete</span>
                             </td>
 
-                            <td class=" px-3 py-4 text-sm text-gray-500 text-center"> {{$task->status =='completed' ? $task->completed_at->diffForHumans() :'-'}}</td>
+                            <td class=" px-3 py-4 text-sm text-gray-500 text-center"> {{$task->status =='completed' ? now()->diff($task->completed_at)->format('%d days %i minutes ago') :'-'}}</td>
                         @else
                             <td class=" px-3 py-4 text-sm text-gray-500 text-center">
                                 <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">Incomplete</span>
                             </td>
 
-                            <td class=" px-3 py-4 text-sm text-gray-500 text-center"> {{$task->status =='incomplete' ? $task->end->diff(now())->format('%d days %h hours %i minutes remaining'): '-'}}</td>
+                            <td class=" px-3 py-4 text-sm text-gray-500 text-center"> {{$task->status =='incomplete' ? $task->end->diff(now())->format('%d days %i minutes remaining'): '-'}}</td>
                         @endif
                         <td class="px-3 py-4">
-                            <a href="{{route('task.show',['task'=> $task->uuid])}}" class="text-indigo-600 hover:text-indigo-900">View</a>
+                            <a href="{{route('task.show',['task'=> $task])}}" class="text-indigo-600 hover:text-indigo-900">View</a>
                         </td>
                     </tr>
                 @empty
