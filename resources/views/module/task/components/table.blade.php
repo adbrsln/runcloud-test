@@ -19,6 +19,7 @@
                 <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Start</th>
                 <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">End</th>
                 <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
+                <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Remarks</th>
                 <th scope="col" class="px-3 py-3.5 ">
                   <span class="sr-only">Edit</span>
                 </th>
@@ -34,12 +35,16 @@
                         <td class=" px-3 py-4 text-sm text-gray-500 text-center">{{$task->end}}</td>
                         @if ($task->status == 'completed')
                             <td class=" px-3 py-4 text-sm text-gray-500 text-center">
-                                <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Complete</span> </br> {{$task->status =='completed' ? $task->completed_at->diffForHumans() :'-'}}
+                                <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Complete</span>
                             </td>
+
+                            <td class=" px-3 py-4 text-sm text-gray-500 text-center"> {{$task->status =='completed' ? $task->completed_at->diffForHumans() :'-'}}</td>
                         @else
                             <td class=" px-3 py-4 text-sm text-gray-500 text-center">
-                                <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">Incomplete</span> </br> {{$task->status =='incomplete' ? $task->end->diff(now())->format('%d days %h hours %i minutes remaining'): '-'}}
+                                <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">Incomplete</span>
                             </td>
+
+                            <td class=" px-3 py-4 text-sm text-gray-500 text-center"> {{$task->status =='incomplete' ? $task->end->diff(now())->format('%d days %h hours %i minutes remaining'): '-'}}</td>
                         @endif
                         <td class="px-3 py-4">
                             <a href="{{route('task.show',['task'=> $task->uuid])}}" class="text-indigo-600 hover:text-indigo-900">View</a>
